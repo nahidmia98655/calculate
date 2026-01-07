@@ -18,10 +18,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.icons.Icons
-import androidx.compose.material3.icons.filled.Backspace
+import androidx.compose.material.icons.filled.Backspace
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,8 +33,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun CalculatorScreen(viewModel: CalculatorViewModel = viewModel()) {
-    // Directly observe the state from the ViewModel
-    val state by viewModel.state
+    // Directly observe the state from the ViewModel (state is a plain value, not LiveData)
+    val state = viewModel.state
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
