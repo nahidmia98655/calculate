@@ -17,7 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons // Fixed import
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Backspace
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun CalculatorScreen(viewModel: CalculatorViewModel = viewModel()) {
-    // Directly observe the state from the ViewModel (state is a plain value, not LiveData)
+    // Observe the state from the ViewModel
     val state = viewModel.state
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -62,14 +62,38 @@ fun CalculatorScreen(viewModel: CalculatorViewModel = viewModel()) {
                 modifier = Modifier.fillMaxSize()
             )
             Spacer(modifier = Modifier.height(24.dp))
-            CalculatorButtonRow(
-                buttons = listOf(
-                    CalculatorButton("C", Color(0xFFEF5350)) { viewModel.onAction(CalculatorAction.Clear) },
-                    CalculatorButton("⌫", Color(0xFFEF5350)) { viewModel.onAction(CalculatorAction.Delete) },
-                    CalculatorButton("÷", Color(0xFF7C3AED)) { viewModel.onAction(CalculatorAction.Operator("÷")) },
-                    CalculatorButton("×", Color(0xFF7C3AED)) { viewModel.onAction(CalculatorAction.Operator("×")) }
-                )
-            )
+            // First row: Clear, Backspace (icon), Divide, Multiply
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CalculatorButton(
+                    label = "C",
+                    backgroundColor = Color(0xFFEF5350)
+                ) { viewModel.onAction(CalculatorAction.Clear) }
+                IconButton(
+                    onClick = { viewModel.onAction(CalculatorAction.Delete) },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(64.dp)
+                        .background(Color(0xFFEF5350), shape = RoundedCornerShape(8.dp))
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Backspace,
+                        contentDescription = "Delete",
+                        tint = Color.White
+                    )
+                }
+                CalculatorButton(
+                    label = "÷",
+                    backgroundColor = Color(0xFF7C3AED)
+                ) { viewModel.onAction(CalculatorAction.Operator("÷")) }
+                CalculatorButton(
+                    label = "×",
+                    backgroundColor = Color(0xFF7C3AED)
+                ) { viewModel.onAction(CalculatorAction.Operator("×")) }
+            }
+            // Number rows
             CalculatorButtonRow(
                 buttons = listOf(
                     CalculatorButton("7") { viewModel.onAction(CalculatorAction.Number("7")) },
