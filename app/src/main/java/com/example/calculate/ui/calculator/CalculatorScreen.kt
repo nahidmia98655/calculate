@@ -34,7 +34,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun CalculatorScreen(viewModel: CalculatorViewModel = viewModel()) {
-    // Observe the state from the ViewModel
     val state = viewModel.state
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -63,7 +62,7 @@ fun CalculatorScreen(viewModel: CalculatorViewModel = viewModel()) {
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(24.dp))
-            // First row: Clear, Backspace (icon), Divide, Multiply
+            // First row: Clear, Backspace, Divide, Multiply
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
@@ -93,6 +92,28 @@ fun CalculatorScreen(viewModel: CalculatorViewModel = viewModel()) {
                     label = "×",
                     backgroundColor = Color(0xFF7C3AED)
                 ) { viewModel.onAction(CalculatorAction.Operator("×")) }
+            }
+            // Second row: Parentheses and Percent
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                CalculatorButton(
+                    label = "(",
+                    backgroundColor = Color(0xFF7C3AED)
+                ) { viewModel.onAction(CalculatorAction.Parenthesis("(")) }
+                CalculatorButton(
+                    label = ")",
+                    backgroundColor = Color(0xFF7C3AED)
+                ) { viewModel.onAction(CalculatorAction.Parenthesis(")")) }
+                CalculatorButton(
+                    label = "%",
+                    backgroundColor = Color(0xFF7C3AED)
+                ) { viewModel.onAction(CalculatorAction.Percent) }
+                CalculatorButton(
+                    label = "±",
+                    backgroundColor = Color(0xFF7C3AED)
+                ) { viewModel.onAction(CalculatorAction.ToggleSign) }
             }
             // Number rows
             CalculatorButtonRow(
